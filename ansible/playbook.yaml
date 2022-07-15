@@ -41,3 +41,11 @@
           shell:
             cmd: sudo chown ubuntu /home/ubuntu/.vimrc  ; sudo echo "set expandtab" >> /home/ubuntu/.vimrc ; sudo echo "set tabstop=2" >> /home/ubuntu/.vimrc ; sudo echo "set shiftwidtg=2" >> /home/ubuntu/.vimrc
             warn: false
+        - name: Start Kind
+          shell:
+            cmd: sudo kind create cluster
+            warn: false
+        - name: Configure Kubectl
+          shell:
+            cmd: sudo cp -r /root/.kube /home/ubuntu/ ; sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube/
+            warn: false
