@@ -7,7 +7,6 @@ resource "local_file" "ansible_inventory" {
 
   depends_on = [local_file.ansible_inventory]
   provisioner "local-exec" {
-    command = "sleep 5; ansible-playbook -i ./ansible/inventory.yaml ./ansible/playbook.yaml"
+    command = "sleep 20; ansible-playbook -i ./ansible/inventory.yaml ./ansible/playbook.yaml"
   }
 }
-
