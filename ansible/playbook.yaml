@@ -1,0 +1,43 @@
+---
+    - hosts: ec2_instances
+      tasks:
+        - name: Install Docker
+          shell:
+            cmd: curl -fsSL https://get.docker.com | bash
+            warn: false
+        - name: Install Kind
+          shell:
+            cmd: curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.13.0/kind-linux-amd64
+            warn: false
+        - name: Add Kind path bin
+          shell:
+            cmd: sudo chmod +x ./kind ; sudo mv kind /usr/local/bin
+            warn: false
+        - name: Add key repo Kubectl
+          shell:
+            cmd: sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+            warn: false
+        - name: Add repo Kubectl
+          shell:
+            cmd: sudo echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            warn: false
+        - name: Upgrade packages
+          shell:
+            cmd: sudo apt-get update
+            warn: false
+        - name: Install Kubectl
+          shell:
+            cmd: sudo apt-get install -y kubectl
+            warn: false
+        - name: Configure Autocomplete Kubectl
+          shell:
+            cmd: sudo echo "source <(kubectl completion bash)" >> ~/.bashrc
+            warn: false
+        - name: Configure Alias bashrc
+          shell:
+            cmd: sudo echo "alias k=kubectl" >> ~/.bashrc ; sudo echo "complete -F __start_kubectl k" >> ~/.bashrc
+            warn: false
+        - name: Configure vimrc
+          shell:
+            cmd: sudo chown ubuntu /home/ubuntu/.vimrc  ; sudo echo "set expandtab" >> /home/ubuntu/.vimrc ; sudo echo "set tabstop=2" >> /home/ubuntu/.vimrc ; sudo echo "set shiftwidtg=2" >> /home/ubuntu/.vimrc
+            warn: false
